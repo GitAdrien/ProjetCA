@@ -198,10 +198,9 @@ void Function::comput_basic_block(){
 
    if (BB_computed) return; // NE PAS TOUCHER
 
-    Line* lastlabel = NULL;
-
     bool hasInst = false;
     bool hasLabel = false;
+
     while(current != _end->get_next()){ //traiter la derniere ligne donc s'arr�ter � la suivante!
     	cout << "current line : " << current->to_string()<< endl;
         if (!current->isInst()) {
@@ -218,7 +217,7 @@ void Function::comput_basic_block(){
 
                     debut = current;
                     current = current->get_next();
-                    lastlabel = false;
+                    hasLabel = false;
                     hasInst = false;
                 }
             } else { // est une directive donc skip.
@@ -235,7 +234,7 @@ void Function::comput_basic_block(){
                 current = current->get_next();
                 b = NULL;
                 ind++;
-                lastlabel = false;
+                hasLabel = false;
                 hasInst = false;
                 debut = current;
             } else { // n'est pas un jump.

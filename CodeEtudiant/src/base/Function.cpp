@@ -410,8 +410,35 @@ void Function::compute_live_var(){
   Basic_block *current, *bb, *pred;
   bool change = true;
   int size= (int) _myBB.size();
+  int nb_pred;
   it=_myBB.begin();
+  for(it = Function::bb_list_end(), it2 = Function::bb_list_begin(); it!=it2; it--){ //du dernier au premier
+  	current = *it;
+  	if(current->get_nb_succ()==0){//Sans successeur
+  		workinglist.push_back(current);
+  	}
+  }
+  while(!workingList.empty()){
+    current = workingList.front();
+    nb_pred = current.get_nb_pred;
+    workingList.pop_front();
+    for(int i = 0; i < LiveIn.size(); i++){
+          if(current.get_successor1()!=NULL&&current.get_successor1().LiveIn[i]){
+            current.LiveOut[i] = 1;
+          }
+           if(current.get_successor2()!=NULL&&current.get_successor2().LiveIn[i]){
+            current.LiveOut[i] = 1;
+          }
 
+          if((current.LiveOut[i]&&!current.Def[i]) || current.Use[i]){
+            current.LiveIn[i] = 1;
+          }
+    }
+    for(int j = 0; j < nb_pred; j){
+      workingList.push_back(current.get_predecessor(j));
+    }
+
+  }
 
 
   /* A REMPLIR avec algo vu en cours et en TD*/

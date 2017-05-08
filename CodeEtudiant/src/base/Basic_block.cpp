@@ -637,8 +637,14 @@ void Basic_block::reg_rename(list<int> *frees){
         }
         inst2 = inst2->get_next();
       }
-      list_iter++;
-      newr = *list_iter;
+      if(newr<63){
+        list_iter++;
+       newr = *list_iter;
+      }
+      else{
+        break;
+      }
+     
     }
     inst = inst->get_next();
   }
@@ -655,6 +661,11 @@ void Basic_block::reg_rename(){
   Instruction * inst = get_first_instruction();
   int newr;
   list<int> *frees, lfree;
+  for(int i = 0; i < LiveIn.size(); i++){
+    if(!(i==0 && i==1 && LiveIn[i] && LiveOut[i])) {
+      frees->push_back(i);
+    }
+  }
  
   
   /* A REMPLIR */

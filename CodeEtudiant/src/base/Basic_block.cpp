@@ -511,6 +511,8 @@ ne pas oublier les conventions d'appel : les registres $4, $5, $6, $7 peuvent co
 
 void Basic_block::compute_use_def(void){
   Instruction * inst = get_first_instruction();
+  Instruction * inst2;
+
   OPRegister *dst, *src1, *src2;
   
   if (use_def_done) return;
@@ -531,22 +533,21 @@ void Basic_block::compute_use_def(void){
       if (!Def[src2->get_reg()])
         Use[src2->get_reg()] = true;
     }
-
+    if(inst->is_branch()){
+      inst2 = inst;
+    }
     inst = inst->get_next();
   }
 
-
-
-  inst = get_branch();
-  if (inst != NULL) {
+  if (inst2 != NULL) {
     // Retour de fonction / Jump register
-    if (inst->is_indirect_branch()) {
+    if (inst2->is_indirect_branch()) {
       Use[31] = true; // Adresse de retour
       Use[2] = true; // Valeur de retour
     }
 
     // Appel de fonction
-    if(inst->is_call()) {
+    if(inst2->is_call()) {
       Def[31] = true;
       Def[2] = true;
       for (int j = 4; j < 7; j++) 

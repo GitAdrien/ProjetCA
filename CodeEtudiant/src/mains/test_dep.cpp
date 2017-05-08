@@ -59,6 +59,7 @@ int main(int argc, char * argv[]){
 	   cout<<"============================"<<endl;
 	   
 	   functmp ->compute_live_var();
+
 	   j=0;
 	   for(itbb=functmp->bb_list_begin(); 
 	       itbb!=functmp->bb_list_end(); itbb++, j++){
@@ -86,7 +87,7 @@ int main(int argc, char * argv[]){
 	      bb->display();
 	      cout<<"---nb_cycles : "<<bb->nb_cycles()<<"-----------"<<endl;
 	      // liste de registres pour le renommage
-	      // avec des registres passéees en paramètre 
+	      // avec des registres passï¿½ees en paramï¿½tre 
 	      /*
 	      frees.clear();
 	      for(int k=32; k<64; k++){
@@ -99,13 +100,13 @@ int main(int argc, char * argv[]){
 
 	      /* renommage utilisant les registres disponibles dans le bloc */
 	      /*  ne pas faire les 2 */
-	      /* il faut recalculer les informations de vivacité et de def-use 
+	      /* il faut recalculer les informations de vivacitï¿½ et de def-use 
 	         pour pouvoir le faire 2 fois de suite !!
 	      */
 	      bb->reg_rename();
 	      cout<<"----- apres renommage ------"<<endl;
 	      bb->display();
-	      // il faut annuler le calcul des dépendances et le refaire
+	      // il faut annuler le calcul des dï¿½pendances et le refaire
 	      bb->reset_pred_succ_dep();
 	      bb->comput_pred_succ_dep();
 	      cout<<"---nb_cycles--"<<bb->nb_cycles()<<"-----------"<<endl;

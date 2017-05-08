@@ -371,7 +371,7 @@ void Function::compute_dom(){
 		if(currDomin[i] != current->Domin[i]){
 			change = true;
 			current->Domin[i]= currDomin[i];	
-		}
+		} 
   	}
   	if(change){
   		for(int i = 0; i<current->get_nb_succ();i++){
@@ -411,9 +411,17 @@ void Function::compute_live_var(){
   int size= (int) _myBB.size();
   int nb_pred;
   it=_myBB.begin();
+  int i = 0;
   for(it = Function::bb_list_end(), it2 = Function::bb_list_begin(); it!=it2; it--){ //du dernier au premier
+
+    if(i == 0){
+    it--;
+    i++;
+    }
   	current = *it;
+
   	if(current->get_nb_succ()==0){//Sans successeur
+
   		workinglist.push_back(current);
   	}
   }
@@ -437,7 +445,7 @@ void Function::compute_live_var(){
         current->LiveOut[2] = true;
         current->LiveOut[29] = true;  
     }
-    for(int j = 0; j < nb_pred; j){
+    for(int j = 0; j < nb_pred; j++){
       workinglist.push_back(current->get_predecessor(j));
     }
 

@@ -613,9 +613,35 @@ Utilise comme registres disponibles ceux dont le num�ro est dans la liste para
 *****/
 void Basic_block::reg_rename(list<int> *frees){
   Instruction * inst = get_first_instruction();
+  Instruction * inst2 = get_first_instruction();
+
   int newr;
+  int reg_current = 0;
   compute_def_liveout();
- 
+  std::list<int>::iterator list_iter = frees->begin();
+  newr = *list_iter;
+  while(inst != NULL){
+    reg_current = inst->get_reg_dst()->get_reg();
+    if(!LiveOut[newr]){// mort en sortie donc on renomme partout
+      inst2 = inst;
+      inst2 = inst2->get_next();
+      while(inst2 != NULL){
+        if(inst2->get_reg_src1()->get_reg() == reg_current){
+          inst2->get_reg_src1()->set_reg(newr);
+        }
+         if(inst2->get_reg_src2()->get_reg() == reg_current){
+          inst2->get_reg_src2()->set_reg(newr);
+        }
+         if(inst2->get_reg_dst()->get_reg() == reg_current){
+          inst2->get_reg_dst()->set_reg(newr);
+        }
+        inst2 = inst2->get_next();
+      }
+      list_iter++;
+      newr = *list_iter;
+    }
+    inst = inst->get_next();
+  }
 
   /* A REMPLIR */
 
